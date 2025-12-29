@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Home | Stackly Internet</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+
+  /* LOADER BACKGROUND */
+#cyber-loader {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #000020, #000);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* CANVAS */
+#networkCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* TEXT OVERLAY */
+.loader-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #00ffff;
+}
+
+.loader-text h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+  animation: glowNetwork 1.2s infinite alternate;
+}
+
+.loader-text p {
+  font-size: 1.2rem;
+  color: #b2ffff;
+}
+
+/* GLOW ANIMATION */
+@keyframes glowNetwork {
+  from {text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;}
+  to {text-shadow: 0 0 25px #00ffff, 0 0 50px #00ffff;}
+}
+
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { width:100%; overflow-x:hidden; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color:#333; background:#f5f7fa; }
+a { text-decoration:none; }
+
+/* HEADER */
+header { position: fixed; top: 0; width: 100%; z-index: 1000; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.05);}
+nav { display:flex; justify-content:space-between; align-items:center; padding:12px 20px; max-width:1200px; margin:auto; }
+.logo img { width:120px; display:block; }
+.nav-links { list-style:none; display:flex; gap:20px; align-items:center; }
+.nav-links li { position:relative; }
+.nav-links a { color:#000; font-weight:600; font-size:16px; padding:6px 8px; display:inline-block; }
+.nav-links a:hover { color:#4CAF50; }
+
+/* Dropdown */
+.dropdown { display:flex; align-items:center; position:relative; }
+.dropdown .dropbtn-text { display:flex; align-items:center; gap:5px; }
+.dropdown .arrow { font-size:12px; cursor:pointer; transition:0.3s; }
+.dropdown.active .arrow { transform:rotate(180deg); }
+.dropdown-content { display:none; position:absolute; top:100%; left:0; background:#fff; min-width:160px; border-radius:6px; box-shadow:0 8px 20px rgba(0,0,0,0.08); z-index:1000; }
+.dropdown-content a { display:block; padding:10px 14px; color:#000; font-weight:500; }
+.dropdown-content a:hover { background:#f5f5f5; color:#4CAF50; }
+@media(min-width:901px){ .dropdown:hover .dropdown-content{ display:block; } }
+
+/* Hamburger */
+.menu-toggle { display:none; background:transparent; border:none; cursor:pointer; }
+.menu-toggle-inner { font-size:28px; }
+
+/* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Segoe UI, sans-serif;
+  background:#0b0f1a;
+  color:#fff;
+  overflow-x:hidden;
+}
+section{padding:90px 6%}
+
+/* ================= GLOBAL ANIMATIONS ================= */
+.reveal{
+  opacity:0;
+  transform:translateY(60px);
+  transition:all 0.9s ease;
+}
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ================= SECTION 1 – SPLIT VIDEO ================= */
+.hero2{
+  display:grid;
+  grid-template-columns:1.1fr 0.9fr;
+  gap:60px;
+  align-items:center;
+  min-height:100vh;
+}
+
+.hero2 video{
+  width:100%;
+  height:420px;
+  object-fit:cover;
+  border-radius:20px;
+  box-shadow:0 30px 80px rgba(0,255,200,0.25);
+  animation:float 6s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+}
+
+.hero2 h1{
+  font-size:3rem;
+  margin-bottom:20px;
+}
+.hero2 p{
+  color:#cfd6ff;
+  line-height:1.7;
+  margin-bottom:35px;
+}
+.hero2 a{
+  display:inline-block;
+  padding:14px 38px;
+  border-radius:50px;
+  background:#00ffd0;
+  color:#000;
+  font-weight:700;
+  transition:0.3s;
+}
+.hero2 a:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 30px #00ffd0;
+}
+
+/* ================= SECTION 2 – NETWORK POWER ================= */
+.network{
+  background:linear-gradient(135deg,#020617,#050b2e);
+  text-align:center;
+}
+
+.network-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:30px;
+  margin-top:60px;
+}
+
+.network-box{
+  padding:40px 25px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
+  transition:0.4s;
+}
+.network-box:hover{
+  transform:translateY(-15px) scale(1.05);
+  box-shadow:0 20px 50px rgba(0,255,200,0.3);
+}
+
+.network-box h3{
+  font-size:2.2rem;
+  color:#00ffd0;
+  margin-bottom:10px;
+}
+
+/* ================= SECTION 3 – USE CASE SCROLLER ================= */
+.usecase{
+  overflow:hidden;
+}
+
+.usecase-track{
+  display:flex;
+  gap:40px;
+  animation:scrollX 25s linear infinite;
+}
+
+@keyframes scrollX{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+.usecard{
+  min-width:300px;
+  background:#11162a;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.usecard h3{
+  color:#00ffd0;
+  margin-bottom:15px;
+}
+
+/* ================= SECTION 4 – CTA VIDEO ================= */
+.cta-video{
+  position:relative;
+  height:70vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+}
+
+.cta-video video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(0.4);
+  z-index:-1;
+}
+
+.cta-video h2{
+  font-size:3rem;
+  margin-bottom:20px;
+}
+.cta-video a{
+  padding:16px 45px;
+  background:#00ffd0;
+  color:#000;
+  font-weight:800;
+  border-radius:50px;
+  display:inline-block;
+  transition:0.3s;
+}
+.cta-video a:hover{
+  transform:scale(1.1);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1000px){
+  .hero2{grid-template-columns:1fr}
+  .network-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .network-grid{grid-template-columns:1fr}
+  .hero2 h1{font-size:2.2rem}
+}
+
+/* FOOTER */
+.footer { background:linear-gradient(135deg,#0a3d91,#1e90ff); color:#fff; padding:50px 20px; }
+.footer-container { max-width:1200px; margin:auto; display:flex; justify-content:space-between; flex-wrap:wrap; }
+.footer-section { flex:1; min-width:260px; margin:15px 20px; }
+.footer-section h3 { color:#ffcc00; margin-bottom:15px; font-size:18px; font-weight:600; }
+.footer-section p, .footer-section ul li a { color:#d3d3d3; font-size:15px; }
+.footer-section ul { list-style:none; padding:0; }
+.footer-section ul li { margin-bottom:10px; }
+.footer-section ul li a:hover { color:#00ffae; }
+.social-icons a { color:#b8c6ff; margin-right:12px; font-size:18px; transition:0.3s; }
+.social-icons a:hover { color:#00ffae; }
+.footer-bottom { text-align:center; padding-top:20px; border-top:1px solid rgba(255,255,255,0.15); margin-top:30px; }
+.footer-bottom p { color:#c7c7c7; font-size:14px; }
+
+/* RESPONSIVE */
+@media(max-width:1024px){ .features-grid { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:768px){ .page-hero { padding:110px 18px; } .page-hero h1{font-size:2.2em;} .features-grid { grid-template-columns:1fr;} }
+
+/* MOBILE MENU */
+@media(max-width:900px){
+  .menu-toggle{display:block;}
+  .nav-links{position:fixed; top:0; left:-100%; width:75%; height:100vh; background:#fff; flex-direction:column; align-items:flex-start; padding:80px 25px; gap:15px; transition:left 0.3s ease; overflow-y:auto; box-shadow:5px 0 20px rgba(0,0,0,0.2);}
+  .nav-links.active{left:0;}
+  .nav-links li{width:100%; display:flex; flex-direction:column; position:relative;}
+  .nav-links a{font-size:18px; display:block; width:100%; padding:10px 0;}
+  .dropdown-content { position:static; display:none; width:100%; margin-top:5px; padding-left:20px; border-left:3px solid #4CAF50; border-radius:6px; background:#f9f9f9;}
+  .dropdown.active>.dropdown-content{display:block;}
+}
+
+/* ================= SPEED SECTION ================= */
+.speed-section{
+  background:#020617;
+  text-align:center;
+}
+
+.speed-title{
+  font-size:2.8rem;
+  margin-bottom:70px;
+}
+
+.speed-wrap{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:40px;
+}
+
+.speed-card{
+  background:#0f172a;
+  padding:45px 30px;
+  border-radius:22px;
+  opacity:0;
+  transform:
+    translateY(120px)
+    rotateX(70deg)
+    scale(0.6);
+  transition:all 0.9s cubic-bezier(.17,.67,.3,1.2);
+}
+
+.speed-icon{
+  font-size:40px;
+  margin-bottom:20px;
+}
+
+.speed-card h3{
+  color:#00ffd0;
+  margin-bottom:10px;
+}
+
+.speed-card p{
+  color:#cfd6ff;
+}
+
+/* ACTIVE STATE (VERY VISIBLE) */
+.speed-card.active{
+  opacity:1;
+  transform:
+    translateY(0)
+    rotateX(0deg)
+    scale(1);
+}
+
+/* hover effect */
+.speed-card:hover{
+  transform:scale(1.1);
+  box-shadow:0 30px 60px rgba(0,255,200,0.35);
+}
+
+/* responsive */
+@media(max-width:1000px){
+  .speed-wrap{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .speed-wrap{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+
+  <!-- CYBER INTERNET LOADER -->
+<div id="cyber-loader">
+  <canvas id="networkCanvas"></canvas>
+  <div class="loader-text">
+    <h1>🌐 CONNECTING TO THE WEB</h1>
+    <p>Initializing network...</p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+<nav>
+  <div class="logo"><a href="index.html"><img src="Stacklylogo.webp" alt="Stackly Logo"></a></div>
+  <button id="menu-toggle" class="menu-toggle"><span class="menu-toggle-inner">☰</span></button>
+  <ul id="nav-links" class="nav-links">
+    <li class="dropdown">
+      <a href="Home2.html" class="dropbtn-text">Home <span class="arrow">▼</span></a>
+      <div class="dropdown-content">
+        <a href="index.html">Home 1</a>
+      </div>
+    </li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="speedtest.html">Speed Test</a></li>
+    <li><a href="support2.html">Support</a></li>
+    <li><a href="login2.html">Login</a></li>
+    <li><a href="getconnected.html">Get Connected</a></li>
+  </ul>
+</nav>
+</header>
+
+<!-- ================= SECTION 1 ================= -->
+<section class="hero2 reveal">
+  <div>
+    <h1>Internet That Never Slows You Down</h1>
+    <p>
+      Built for streaming, gaming, work-from-home, and smart living.
+      Our next-gen fiber network keeps you connected 24/7.
+    </p>
+    <a href="402error.html">Check Availability</a>
+  </div>
+
+  <video autoplay muted loop playsinline>
+    <source src="internet.mp4" type="video/mp4">
+  </video>
+</section>
+
+<!-- ================= SECTION 2 ================= -->
+<section class="network reveal">
+  <h2>Our Network Power</h2>
+  <p style="color:#cfd6ff;margin-top:15px">
+    Engineered for speed, stability, and security
+  </p>
+
+  <div class="network-grid">
+    <div class="network-box">
+      <h3>99.9%</h3>
+      <p>Uptime Guarantee</p>
+    </div>
+    <div class="network-box">
+      <h3>2 Gbps</h3>
+      <p>Max Speed</p>
+    </div>
+    <div class="network-box">
+      <h3>0 Lag</h3>
+      <p>Optimized Routing</p>
+    </div>
+    <div class="network-box">
+      <h3>24/7</h3>
+      <p>Support Team</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 3 ================= -->
+<section class="usecase reveal">
+  <h2 style="margin-bottom:40px">Designed for Every Lifestyle</h2>
+
+  <div class="usecase-track">
+    <div class="usecard">
+      <h3>Smart Homes</h3>
+      <p>Connect cameras, lights, and devices without interruptions.</p>
+    </div>
+    <div class="usecard">
+      <h3>Online Gaming</h3>
+      <p>Low ping, no packet loss, real-time response.</p>
+    </div>
+    <div class="usecard">
+      <h3>Business Internet</h3>
+      <p>Dedicated bandwidth and enterprise-grade security.</p>
+    </div>
+    <div class="usecard">
+      <h3>Streaming</h3>
+      <p>4K & 8K streaming without buffering.</p>
+    </div>
+
+    <!-- duplicate for smooth scroll -->
+    <div class="usecard">
+      <h3>Smart Homes</h3>
+      <p>Connect cameras, lights, and devices without interruptions.</p>
+    </div>
+    <div class="usecard">
+      <h3>Online Gaming</h3>
+      <p>Low ping, no packet loss, real-time response.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 4 ================= -->
+<section class="cta-video reveal">
+  <video autoplay muted loop playsinline>
+    <source src="internet1.mp4" type="video/mp4">
+  </video>
+  <div>
+    <h2>Upgrade Your Internet Today</h2>
+    <a href="402error.html">Get Connected</a>
+  </div>
+</section>
+
+<section class="speed-section">
+  <h2 class="speed-title">Why Our Internet Feels Faster</h2>
+
+  <div class="speed-wrap">
+    <div class="speed-card">
+      <div class="speed-icon">⚡</div>
+      <h3>Instant Load</h3>
+      <p>Websites open instantly without delay.</p>
+    </div>
+
+    <div class="speed-card">
+      <div class="speed-icon">🎮</div>
+      <h3>Zero Lag Gaming</h3>
+      <p>Low ping for real-time gaming.</p>
+    </div>
+
+    <div class="speed-card">
+      <div class="speed-icon">🎥</div>
+      <h3>Smooth Streaming</h3>
+      <p>4K videos play without buffering.</p>
+    </div>
+
+    <div class="speed-card">
+      <div class="speed-icon">☁️</div>
+      <h3>Cloud Ready</h3>
+      <p>Perfect for work and cloud apps.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section about">
+      <div class="logo"><a href="index.html"><img src="Stacklylogo.webp" alt="Stackly Logo" style="width:150px;"></a></div>
+      <p>Stackly Internet Site provides high-speed, reliable, and secure internet solutions across India.</p>
+      <div class="social-icons">
+        <a href="402error.html"><i class="fab fa-facebook-f"></i></a>
+        <a href="402error.html"><i class="fab fa-linkedin-in"></i></a>
+        <a href="402error.html"><i class="fab fa-twitter"></i></a>
+        <a href="402error.html"><i class="fab fa-instagram"></i></a>
+        <a href="402error.html"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-section links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="Home2.html" style="color:#fff;">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="packages.html">Packages</a></li>
+        <li><a href="speedtest.html">Speed Test</a></li>
+        <li><a href="support2.html">Support</a></li>
+        <li><a href="login2.html">Login</a></li>
+        <li><a href="getconnected.html">Get Connected</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section contact">
+      <h3>Contact Us</h3>
+      <p><strong>Email:</strong> support@stackly.com</p>
+      <p><strong>Phone:</strong> +91 70107 92745</p>
+      <p><strong>Location:</strong> Bengaluru, Karnataka-560068</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Stackly Internet Site. All rights reserved.</p></div>
+</footer>
+
+<script>
+// Hamburger toggle
+const toggleBtn = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+toggleBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  navLinks.classList.toggle('active');
+  toggleBtn.querySelector('.menu-toggle-inner').textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+});
+
+// Mobile dropdown toggle only on arrow
+const dropdown = document.querySelector('.dropdown');
+const dropdownArrow = dropdown.querySelector('.arrow');
+dropdownArrow.addEventListener('click', e => {
+  if(window.innerWidth <= 900){
+    e.preventDefault();
+    e.stopPropagation();
+    dropdown.classList.toggle('active');
+  }
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', e => {
+  if(window.innerWidth <= 900){
+    if(!navLinks.contains(e.target) && !toggleBtn.contains(e.target)){
+      navLinks.classList.remove('active');
+      toggleBtn.querySelector('.menu-toggle-inner').textContent = '☰';
+      dropdown.classList.remove('active');
+    }
+  }
+});
+
+
+/* Scroll Reveal */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('active');
+    }
+  });
+},{threshold:0.2});
+reveals.forEach(el=>observer.observe(el));
+
+// Cyber Network Loader
+const canvas = document.getElementById("networkCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let nodes = [];
+const NODE_COUNT = 60;
+
+// Create nodes
+for(let i=0;i<NODE_COUNT;i++){
+  nodes.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random()-0.5)*1.2,
+    vy: (Math.random()-0.5)*1.2,
+    radius: Math.random()*2+1
+  });
+}
+
+// Draw nodes & connections
+function animateNetwork(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  
+  // draw connections
+  for(let i=0;i<NODE_COUNT;i++){
+    for(let j=i+1;j<NODE_COUNT;j++){
+      let dx = nodes[i].x - nodes[j].x;
+      let dy = nodes[i].y - nodes[j].y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist<120){
+        ctx.strokeStyle = `rgba(0,255,255,${1-dist/120})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x,nodes[i].y);
+        ctx.lineTo(nodes[j].x,nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // draw nodes
+  nodes.forEach(node=>{
+    node.x += node.vx;
+    node.y += node.vy;
+
+    if(node.x<0||node.x>canvas.width) node.vx*=-1;
+    if(node.y<0||node.y>canvas.height) node.vy*=-1;
+
+    ctx.beginPath();
+    ctx.arc(node.x,node.y,node.radius,0,Math.PI*2);
+    ctx.fillStyle = "#00ffff";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animateNetwork);
+}
+animateNetwork();
+
+// Remove loader after page load
+function cyberLoading(){
+  document.body.style.overflow="hidden";
+  setTimeout(()=>{
+    const loader = document.getElementById("cyber-loader");
+    loader.style.opacity = "0";
+    loader.style.visibility = "hidden";
+    document.body.style.overflow="auto";
+  }, 2000); // loader duration
+}
+window.addEventListener("load", cyberLoading);
+
+// Responsive canvas
+window.addEventListener('resize',()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const speedCards = document.querySelectorAll('.speed-card');
+
+const speedObserver = new IntersectionObserver(entries=>{
+  entries.forEach((entry,index)=>{
+    if(entry.isIntersecting){
+      setTimeout(()=>{
+        entry.target.classList.add('active');
+      }, index * 200); // stagger effect
+    }
+  });
+},{threshold:0.3});
+
+speedCards.forEach(card=>speedObserver.observe(card));
+
+</script>
+
+</body>
+</html>
